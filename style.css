@@ -1,0 +1,35 @@
+.contact-list__edit, .contact-list__delete {
+    border: none;
+    background: none;
+}
+
+.spacer {
+    height: 10vh;
+}
+
+.contact-list__page {
+    border: 1px solid #0b5ed7;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.contact-list__page>span {
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.show {
+    display: block !important;
+}
+
+.contact-list__page>.contact-list__item {
+    display: none;
+}
+
+.modal-footer {
+    margin-top: 25px;
+}
+.form__error-message {
+    color: red;
+}
