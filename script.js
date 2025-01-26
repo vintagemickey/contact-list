@@ -131,8 +131,6 @@ class ContactList {
             contacts.push(JSON.parse(localStorage.getItem(key)));
         })
 
-        console.log(contacts.length);
-        console.log('----------------');
         if (contacts.length > 0) {
 
             contacts.sort((a, b) => {
