@@ -167,34 +167,26 @@ class ContactList {
         })
 
         if (contacts.length > 0) {
+            // собираем информацию о кол-ве контактов по каждой букве
+            let letters: string[] = contacts.map(contact => contact.letter);
+            letters = letters.filter((letter, index) => letters.indexOf(letter) === index);
 
-            contacts.sort((a: Contact, b: Contact) => {
-                if (a.letter < b.letter) {
-                    return -1;
-                }
-                if (a.letter > b.letter) {
-                    return 1;
-                }
-                return 0;
+            type Counter = { letter:string; count:number };
+            let counters: Counter[] = letters.map(letter => {
+                return {
+                    letter: letter,
+                    count: contacts.filter(contact => contact.letter === letter).length
+                };
             });
 
-            let count: number = 0;
-            let oldLetter: string = contacts[0].letter;
-            contacts.forEach(contact => {
-                const pageElement: Element = document.querySelector(this.selectors.pageLetter + contact.letter) as Element;
-                if (oldLetter === contact.letter) {
-                    count++;
-                } else {
-                    count = 1;
-                    oldLetter = contact.letter;
-                }
-
+            //добавляем баджи на страницу
+            counters.map(counter => {
+                const pageElement: Element = document.querySelector(this.selectors.pageLetter + counter.letter) as Element;
                 pageElement.innerHTML = '';
-                pageElement.innerHTML += "<span>" + contact.letter + "</span>" + ` <span class="badge text-bg-secondary">${count}</span>`;
+                pageElement.innerHTML += "<span>" + counter.letter + "</span>" + ` <span class="badge text-bg-secondary">${counter.count}</span>`;
             })
 
-            keys.forEach((key: string) => {
-                const contact: Contact = JSON.parse(<string>localStorage.getItem(key));
+            contacts.map((contact: Contact) => {
                 const pageElement: Element  = document.querySelector(this.selectors.pageLetter + contact.letter) as Element;
                 pageElement.innerHTML += this.addContactOnScreen(contact);
             })
@@ -225,7 +217,7 @@ class ContactList {
     }
 
     clearModalSearchContacts(): void {
-        const contactsSearchResult: HTMLElement = document.querySelector(this.selectors.contactsSearchResult)
+        const contactsSearchResult: HTMLElement = document.querySelector(this.selectors.contactsSearchResult);
         contactsSearchResult.innerHTML = '';
     }
 
